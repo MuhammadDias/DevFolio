@@ -1,6 +1,5 @@
 // app/dashboard/layout.tsx
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import DashboardSidebar from '@/components/dashboard/Sidebar'
 
@@ -17,7 +16,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .single()
 
   return (
-    <div className="flex h-screen bg-[#121212] overflow-hidden">
+    <div className="flex h-screen bg-[#dedede] overflow-hidden">
       <DashboardSidebar
         username={profile?.username ?? ''}
         fullName={profile?.full_name ?? ''}

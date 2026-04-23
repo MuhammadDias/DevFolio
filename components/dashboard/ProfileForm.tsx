@@ -16,6 +16,11 @@ export default function ProfileForm({ profile }: Props) {
     linkedin:   profile?.linkedin   ?? '',
     twitter:    profile?.twitter    ?? '',
     avatar_url: profile?.avatar_url ?? '',
+    contact_email: profile?.contact_email ?? '',
+    contact_phone: profile?.contact_phone ?? '',
+    address: profile?.address ?? '',
+    map_lat: profile?.map_lat != null ? String(profile.map_lat) : '',
+    map_lng: profile?.map_lng != null ? String(profile.map_lng) : '',
   })
   const [status, setStatus]   = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [message, setMessage] = useState('')
@@ -28,9 +33,16 @@ export default function ProfileForm({ profile }: Props) {
     setStatus('saving')
     try {
       const { data: { user } } = await supabase.auth.getUser()
+      const parsedLat = form.map_lat.trim() === '' ? null : Number(form.map_lat)
+      const parsedLng = form.map_lng.trim() === '' ? null : Number(form.map_lng)
+      const payload = {
+        ...form,
+        map_lat: Number.isFinite(parsedLat as number) ? parsedLat : null,
+        map_lng: Number.isFinite(parsedLng as number) ? parsedLng : null,
+      }
       const { error } = await supabase
         .from('profiles')
-        .update(form)
+        .update(payload)
         .eq('id', user!.id)
       if (error) throw error
       setStatus('saved'); setMessage('Profile saved!')
@@ -44,23 +56,58 @@ export default function ProfileForm({ profile }: Props) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-[#B3B3B3] mb-1.5">Full Name</label>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Full Name</label>
           <input name="full_name" value={form.full_name} onChange={handleChange}
             className="input-dark" placeholder="Your full name" />
         </div>
         <div>
-          <label className="block text-xs font-medium text-[#B3B3B3] mb-1.5">Avatar URL</label>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Avatar URL</label>
           <input name="avatar_url" value={form.avatar_url} onChange={handleChange}
             className="input-dark" placeholder="https://..." />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-[#B3B3B3] mb-1.5">Bio</label>
+        <label className="block text-xs font-medium text-black/60 mb-1.5">Bio</label>
         <textarea name="bio" value={form.bio} onChange={handleChange}
           className="input-dark resize-none" rows={3}
           placeholder="A short bio about yourself…" />
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Contact Email</label>
+          <input name="contact_email" value={form.contact_email} onChange={handleChange}
+            className="input-dark" placeholder="hello@example.com" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Contact Phone</label>
+          <input name="contact_phone" value={form.contact_phone} onChange={handleChange}
+            className="input-dark" placeholder="+62 812 0000 0000" />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-xs font-medium text-black/60 mb-1.5">Address</label>
+        <input name="address" value={form.address} onChange={handleChange}
+          className="input-dark" placeholder="City, Province, Country" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Map Latitude</label>
+          <input name="map_lat" value={form.map_lat} onChange={handleChange}
+            className="input-dark" placeholder="-6.200000" />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-black/60 mb-1.5">Map Longitude</label>
+          <input name="map_lng" value={form.map_lng} onChange={handleChange}
+            className="input-dark" placeholder="106.816666" />
+        </div>
+      </div>
+      <p className="text-xs text-black/55 -mt-2">
+        Tip: ambil koordinat dari Google Maps (klik lokasi, lalu copy nilai latitude/longitude).
+      </p>
 
       <div className="grid grid-cols-2 gap-4">
         {[
@@ -70,7 +117,7 @@ export default function ProfileForm({ profile }: Props) {
           { name: 'twitter',  label: 'Twitter',  placeholder: '@handle' },
         ].map(f => (
           <div key={f.name}>
-            <label className="block text-xs font-medium text-[#B3B3B3] mb-1.5">{f.label}</label>
+            <label className="block text-xs font-medium text-black/60 mb-1.5">{f.label}</label>
             <input name={f.name} value={(form as any)[f.name]} onChange={handleChange}
               className="input-dark" placeholder={f.placeholder} />
           </div>
@@ -82,7 +129,7 @@ export default function ProfileForm({ profile }: Props) {
           {status === 'saving' ? 'Saving…' : 'Save Changes'}
         </button>
         {message && (
-          <span className={`text-sm ${status === 'saved' ? 'text-[#1DB954]' : 'text-red-400'}`}>
+          <span className={`text-sm ${status === 'saved' ? 'text-violet-700' : 'text-red-500'}`}>
             {message}
           </span>
         )}

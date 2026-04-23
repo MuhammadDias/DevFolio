@@ -10,6 +10,11 @@ export interface Profile {
   github: string | null
   linkedin: string | null
   twitter: string | null
+  contact_email: string | null
+  contact_phone: string | null
+  address: string | null
+  map_lat: number | null
+  map_lng: number | null
   created_at: string
   updated_at: string
 }
@@ -58,7 +63,18 @@ export interface PublicPortfolioData {
 // Form types (omit server-generated fields)
 export type ProfileFormData = Pick<
   Profile,
-  'full_name' | 'bio' | 'website' | 'github' | 'linkedin' | 'twitter' | 'avatar_url'
+  | 'full_name'
+  | 'bio'
+  | 'website'
+  | 'github'
+  | 'linkedin'
+  | 'twitter'
+  | 'avatar_url'
+  | 'contact_email'
+  | 'contact_phone'
+  | 'address'
+  | 'map_lat'
+  | 'map_lng'
 >
 
 export type ProjectFormData = Omit<

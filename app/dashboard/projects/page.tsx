@@ -17,8 +17,8 @@ export default async function ProjectsPage() {
   return (
     <div className="p-8 max-w-4xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Projects</h1>
-        <p className="text-[#B3B3B3] text-sm mt-1">Add and manage your portfolio projects</p>
+        <h1 className="text-2xl font-bold text-black">Projects</h1>
+        <p className="text-black/60 text-sm mt-1">Add and manage your portfolio projects</p>
       </div>
       <ProjectsClient initialProjects={projects ?? []} userId={user!.id} />
     </div>

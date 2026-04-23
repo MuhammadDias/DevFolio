@@ -14,8 +14,8 @@ export default async function SkillsPage() {
   return (
     <div className="p-8 max-w-3xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Skills</h1>
-        <p className="text-[#B3B3B3] text-sm mt-1">Showcase your technical skills</p>
+        <h1 className="text-2xl font-bold text-black">Skills</h1>
+        <p className="text-black/60 text-sm mt-1">Showcase your technical skills</p>
       </div>
       <SkillsClient initialSkills={skills ?? []} userId={user!.id} />
     </div>

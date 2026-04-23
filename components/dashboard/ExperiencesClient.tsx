@@ -73,41 +73,41 @@ export default function ExperiencesClient({ initialExperiences, userId }: Props)
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
-          <div className="bg-[#181818] rounded-2xl border border-[#2a2a2a] p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <h2 className="text-lg font-bold text-white mb-4">{editing ? 'Edit Experience' : 'Add Experience'}</h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
+          <div className="bg-white rounded-2xl border border-black/10 p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-lg font-bold text-black mb-4">{editing ? 'Edit Experience' : 'Add Experience'}</h2>
             <form onSubmit={handleSave} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Company *</label>
+                  <label className="block text-xs text-black/60 mb-1">Company *</label>
                   <input name="company" value={form.company} onChange={handleChange} className="input-dark" required />
                 </div>
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Position *</label>
+                  <label className="block text-xs text-black/60 mb-1">Position *</label>
                   <input name="position" value={form.position} onChange={handleChange} className="input-dark" required />
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Location</label>
+                <label className="block text-xs text-black/60 mb-1">Location</label>
                 <input name="location" value={form.location} onChange={handleChange} className="input-dark" placeholder="City, Country / Remote" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Start Date</label>
+                  <label className="block text-xs text-black/60 mb-1">Start Date</label>
                   <input name="start_date" type="date" value={form.start_date} onChange={handleChange} className="input-dark" />
                 </div>
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">End Date</label>
+                  <label className="block text-xs text-black/60 mb-1">End Date</label>
                   <input name="end_date" type="date" value={form.end_date} onChange={handleChange}
                     className="input-dark" disabled={form.is_current} />
                 </div>
               </div>
-              <label className="flex items-center gap-2 text-sm text-[#B3B3B3] cursor-pointer">
-                <input type="checkbox" name="is_current" checked={form.is_current} onChange={handleChange} className="accent-[#1DB954]" />
+              <label className="flex items-center gap-2 text-sm text-black/60 cursor-pointer">
+                <input type="checkbox" name="is_current" checked={form.is_current} onChange={handleChange} className="accent-violet-600" />
                 Currently working here
               </label>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Description</label>
+                <label className="block text-xs text-black/60 mb-1">Description</label>
                 <textarea name="description" value={form.description} onChange={handleChange}
                   className="input-dark resize-none" rows={4}
                   placeholder="Describe your responsibilities and achievements…" />
@@ -122,9 +122,9 @@ export default function ExperiencesClient({ initialExperiences, userId }: Props)
       )}
 
       {experiences.length === 0 ? (
-        <div className="card-dark text-center py-12 text-[#B3B3B3]">
+        <div className="card-dark text-center py-12 text-black/60">
           <div className="text-4xl mb-3">💼</div>
-          <p className="font-medium text-white">No experience added yet</p>
+          <p className="font-medium text-black">No experience added yet</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -132,19 +132,19 @@ export default function ExperiencesClient({ initialExperiences, userId }: Props)
             <div key={ex.id} className="card-dark">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-bold text-white">{ex.position}</h3>
-                  <p className="text-[#1DB954] text-sm font-medium">{ex.company}</p>
-                  {ex.location && <p className="text-xs text-[#B3B3B3] mt-0.5">{ex.location}</p>}
-                  <p className="text-xs text-[#B3B3B3] mt-1">
+                  <h3 className="font-bold text-black">{ex.position}</h3>
+                  <p className="text-violet-700 text-sm font-medium">{ex.company}</p>
+                  {ex.location && <p className="text-xs text-black/55 mt-0.5">{ex.location}</p>}
+                  <p className="text-xs text-black/55 mt-1">
                     {formatDate(ex.start_date)} – {ex.is_current ? 'Present' : formatDate(ex.end_date)}
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => openEdit(ex)} className="text-xs text-[#B3B3B3] hover:text-white px-2 py-1 rounded border border-[#2a2a2a] hover:border-[#444] transition-all">Edit</button>
+                  <button onClick={() => openEdit(ex)} className="text-xs text-black/60 hover:text-black px-2 py-1 rounded border border-black/15 hover:border-black/35 transition-all">Edit</button>
                   <button onClick={() => handleDelete(ex.id)} className="text-xs text-red-400 px-2 py-1 rounded border border-red-500/20 hover:border-red-500/40 transition-all">Delete</button>
                 </div>
               </div>
-              {ex.description && <p className="text-sm text-[#B3B3B3] mt-2 leading-relaxed">{ex.description}</p>}
+              {ex.description && <p className="text-sm text-black/55 mt-2 leading-relaxed">{ex.description}</p>}
             </div>
           ))}
         </div>

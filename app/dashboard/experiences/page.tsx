@@ -14,8 +14,8 @@ export default async function ExperiencesPage() {
   return (
     <div className="p-8 max-w-3xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Experience</h1>
-        <p className="text-[#B3B3B3] text-sm mt-1">Add your work and education history</p>
+        <h1 className="text-2xl font-bold text-black">Experience</h1>
+        <p className="text-black/60 text-sm mt-1">Add your work and education history</p>
       </div>
       <ExperiencesClient initialExperiences={experiences ?? []} userId={user!.id} />
     </div>

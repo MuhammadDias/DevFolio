@@ -16,6 +16,34 @@ function GoogleIcon() {
   )
 }
 
+function FacebookIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.022 4.388 11.015 10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.017 1.792-4.687 4.533-4.687 1.313 0 2.686.235 2.686.235v2.961H15.83c-1.492 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.088 24 18.095 24 12.073z" />
+    </svg>
+  )
+}
+
+function EyeIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+function EyeOffIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="m3 3 18 18" />
+      <path d="M10.58 10.58A2 2 0 0 0 12 14a2 2 0 0 0 1.42-.58" />
+      <path d="M9.88 5.09A11 11 0 0 1 12 5c6.5 0 10 7 10 7a18.6 18.6 0 0 1-3.12 4.19" />
+      <path d="M6.61 6.61C3.91 8.42 2 12 2 12a18.7 18.7 0 0 0 6.24 6.15A10.6 10.6 0 0 0 12 19c1.01 0 1.97-.14 2.87-.4" />
+    </svg>
+  )
+}
+
 export default function LoginPage() {
   const router = useRouter()
   const params = useSearchParams()
@@ -26,6 +54,8 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [googleLoading, setGoogleLoading] = useState(false)
+  const [facebookLoading, setFacebookLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -55,16 +85,24 @@ export default function LoginPage() {
     })
   }
 
+  async function handleFacebook() {
+    setFacebookLoading(true)
+    await supabase.auth.signInWithOAuth({
+      provider: 'facebook',
+      options: { redirectTo: `${location.origin}/auth/callback?next=${redirectTo}` },
+    })
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#121212] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#dedede] px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <span className="text-3xl font-black text-white tracking-tight">dev<span className="text-[#1DB954]">folio</span></span>
-          <p className="text-[#B3B3B3] text-sm mt-2">Welcome back</p>
+          <span className="text-3xl font-black tracking-tight">dev<span className="text-violet-700">folio</span></span>
+          <p className="text-black/60 text-sm mt-2">Welcome back</p>
         </div>
 
         <div className="card-dark">
-          <h1 className="text-xl font-bold text-white mb-6">Sign in</h1>
+          <h1 className="text-xl font-bold mb-6">Sign in</h1>
 
           {error && (
             <div className="mb-4 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
@@ -72,24 +110,32 @@ export default function LoginPage() {
             </div>
           )}
 
-          {/* Google OAuth */}
-          <button
-            onClick={handleGoogle} disabled={googleLoading}
-            className="btn-secondary w-full mb-4"
-          >
-            <GoogleIcon />
-            {googleLoading ? 'Redirecting…' : 'Continue with Google'}
-          </button>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+            <button
+              onClick={handleGoogle} disabled={googleLoading}
+              className="btn-secondary w-full"
+            >
+              <GoogleIcon />
+              {googleLoading ? 'Redirecting…' : 'Google'}
+            </button>
+            <button
+              onClick={handleFacebook} disabled={facebookLoading}
+              className="btn-secondary w-full"
+            >
+              <FacebookIcon />
+              {facebookLoading ? 'Redirecting…' : 'Facebook'}
+            </button>
+          </div>
 
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 h-px bg-[#2a2a2a]" />
-            <span className="text-xs text-[#B3B3B3]">or</span>
-            <div className="flex-1 h-px bg-[#2a2a2a]" />
+            <div className="flex-1 h-px bg-black/15" />
+            <span className="text-xs text-black/45">or</span>
+            <div className="flex-1 h-px bg-black/15" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-[#B3B3B3] mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-black/65 mb-1.5">Email</label>
               <input
                 name="email" type="email" value={form.email} onChange={handleChange}
                 className="input-dark" placeholder="you@example.com"
@@ -97,21 +143,33 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-[#B3B3B3] mb-1.5">Password</label>
-              <input
-                name="password" type="password" value={form.password} onChange={handleChange}
-                className="input-dark" placeholder="Your password"
-                autoComplete="current-password" required
-              />
+              <label className="block text-sm font-medium text-black/65 mb-1.5">Password</label>
+              <div className="relative">
+                <input
+                  key={showPassword ? 'show-password' : 'hide-password'}
+                  name="password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange}
+                  className="input-dark pr-12" placeholder="Your password"
+                  autoComplete="current-password" required
+                />
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => setShowPassword(prev => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-violet-700 hover:text-violet-800"
+                >
+                  {showPassword ? <EyeOffIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+                </button>
+              </div>
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? 'Signing in…' : 'Sign In'}
             </button>
           </form>
 
-          <div className="mt-4 text-center text-sm text-[#B3B3B3]">
+          <div className="mt-4 text-center text-sm text-black/60">
             Don&apos;t have an account?{' '}
-            <Link href="/auth/register" className="text-[#1DB954] font-semibold hover:underline">Sign up free</Link>
+            <Link href="/auth/register" className="text-violet-700 font-semibold hover:underline">Sign up free</Link>
           </div>
         </div>
       </div>

@@ -83,46 +83,46 @@ export default function ProjectsClient({ initialProjects, userId }: Props) {
 
       {/* Form modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
-          <div className="bg-[#181818] rounded-2xl border border-[#2a2a2a] p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <h2 className="text-lg font-bold text-white mb-4">{editing ? 'Edit Project' : 'Add Project'}</h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
+          <div className="bg-white rounded-2xl border border-black/10 p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+            <h2 className="text-lg font-bold text-black mb-4">{editing ? 'Edit Project' : 'Add Project'}</h2>
             {error && <p className="text-red-400 text-sm mb-3">{error}</p>}
             <form onSubmit={handleSave} className="space-y-3">
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Title *</label>
+                <label className="block text-xs text-black/60 mb-1">Title *</label>
                 <input name="title" value={form.title} onChange={handleChange} className="input-dark" required />
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Description</label>
+                <label className="block text-xs text-black/60 mb-1">Description</label>
                 <textarea name="description" value={form.description} onChange={handleChange}
                   className="input-dark resize-none" rows={3} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Image URL</label>
+                  <label className="block text-xs text-black/60 mb-1">Image URL</label>
                   <input name="image_url" value={form.image_url} onChange={handleChange} className="input-dark" placeholder="https://..." />
                 </div>
                 <div>
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Live URL</label>
+                  <label className="block text-xs text-black/60 mb-1">Live URL</label>
                   <input name="project_url" value={form.project_url} onChange={handleChange} className="input-dark" placeholder="https://..." />
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">GitHub URL</label>
+                <label className="block text-xs text-black/60 mb-1">GitHub URL</label>
                 <input name="github_url" value={form.github_url} onChange={handleChange} className="input-dark" placeholder="https://github.com/..." />
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Tech Stack (comma separated)</label>
+                <label className="block text-xs text-black/60 mb-1">Tech Stack (comma separated)</label>
                 <input name="tech_stack" value={form.tech_stack} onChange={handleChange}
                   className="input-dark" placeholder="React, TypeScript, Tailwind" />
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex-1">
-                  <label className="block text-xs text-[#B3B3B3] mb-1">Order</label>
+                  <label className="block text-xs text-black/60 mb-1">Order</label>
                   <input name="order_index" type="number" value={form.order_index} onChange={handleChange} className="input-dark" />
                 </div>
-                <label className="flex items-center gap-2 text-sm text-[#B3B3B3] cursor-pointer mt-4">
-                  <input type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="accent-[#1DB954]" />
+                <label className="flex items-center gap-2 text-sm text-black/60 cursor-pointer mt-4">
+                  <input type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="accent-violet-600" />
                   Featured
                 </label>
               </div>
@@ -137,9 +137,9 @@ export default function ProjectsClient({ initialProjects, userId }: Props) {
 
       {/* Projects list */}
       {projects.length === 0 ? (
-        <div className="card-dark text-center py-12 text-[#B3B3B3]">
+        <div className="card-dark text-center py-12 text-black/55">
           <div className="text-4xl mb-3">📁</div>
-          <p className="font-medium text-white">No projects yet</p>
+          <p className="font-medium text-black">No projects yet</p>
           <p className="text-sm mt-1">Add your first project to showcase your work</p>
         </div>
       ) : (
@@ -147,7 +147,7 @@ export default function ProjectsClient({ initialProjects, userId }: Props) {
           {projects.map(p => (
             <div key={p.id} className="card-dark flex items-start gap-4">
               {/* Thumbnail */}
-              <div className="w-16 h-16 rounded-lg bg-[#2a2a2a] flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <div className="w-16 h-16 rounded-lg bg-black/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {p.image_url
                   ? <img src={p.image_url} alt="" className="w-full h-full object-cover" />
                   : <span className="text-2xl">📁</span>
@@ -157,12 +157,12 @@ export default function ProjectsClient({ initialProjects, userId }: Props) {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="font-semibold text-white">{p.title}</h3>
-                    {p.description && <p className="text-sm text-[#B3B3B3] line-clamp-1 mt-0.5">{p.description}</p>}
+                    <h3 className="font-semibold text-black">{p.title}</h3>
+                    {p.description && <p className="text-sm text-black/55 line-clamp-1 mt-0.5">{p.description}</p>}
                   </div>
                   <div className="flex gap-2 flex-shrink-0">
                     {p.is_featured && <span className="badge">Featured</span>}
-                    <button onClick={() => openEdit(p)} className="text-xs text-[#B3B3B3] hover:text-white px-2 py-1 rounded border border-[#2a2a2a] hover:border-[#444] transition-all">Edit</button>
+                    <button onClick={() => openEdit(p)} className="text-xs text-black/60 hover:text-black px-2 py-1 rounded border border-black/15 hover:border-black/35 transition-all">Edit</button>
                     <button onClick={() => handleDelete(p.id)} className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded border border-red-500/20 hover:border-red-500/40 transition-all">Delete</button>
                   </div>
                 </div>

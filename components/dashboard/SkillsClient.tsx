@@ -65,26 +65,26 @@ export default function SkillsClient({ initialSkills, userId }: Props) {
 
       {/* Form modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
-          <div className="bg-[#181818] rounded-2xl border border-[#2a2a2a] p-6 w-full max-w-sm" onClick={e => e.stopPropagation()}>
-            <h2 className="text-lg font-bold text-white mb-4">{editing ? 'Edit Skill' : 'Add Skill'}</h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setShowForm(false)}>
+          <div className="bg-white rounded-2xl border border-black/10 p-6 w-full max-w-sm" onClick={e => e.stopPropagation()}>
+            <h2 className="text-lg font-bold text-black mb-4">{editing ? 'Edit Skill' : 'Add Skill'}</h2>
             <form onSubmit={handleSave} className="space-y-4">
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Skill Name *</label>
+                <label className="block text-xs text-black/60 mb-1">Skill Name *</label>
                 <input name="name" value={form.name} onChange={handleChange} className="input-dark" required placeholder="e.g. React" />
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-1">Category</label>
+                <label className="block text-xs text-black/60 mb-1">Category</label>
                 <select name="category" value={form.category} onChange={handleChange}
-                  className="input-dark bg-[#242424] cursor-pointer">
+                  className="input-dark cursor-pointer">
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-[#B3B3B3] mb-2">Level: <span className="text-[#1DB954] font-semibold">{LEVEL_LABELS[form.level]}</span></label>
+                <label className="block text-xs text-black/60 mb-2">Level: <span className="text-violet-700 font-semibold">{LEVEL_LABELS[form.level]}</span></label>
                 <input name="level" type="range" min={1} max={5} value={form.level} onChange={handleChange}
-                  className="w-full accent-[#1DB954]" />
-                <div className="flex justify-between text-xs text-[#B3B3B3] mt-1">
+                  className="w-full accent-violet-600" />
+                <div className="flex justify-between text-xs text-black/55 mt-1">
                   <span>Beginner</span><span>Expert</span>
                 </div>
               </div>
@@ -98,29 +98,29 @@ export default function SkillsClient({ initialSkills, userId }: Props) {
       )}
 
       {skills.length === 0 ? (
-        <div className="card-dark text-center py-12 text-[#B3B3B3]">
+        <div className="card-dark text-center py-12 text-black/55">
           <div className="text-4xl mb-3">⚡</div>
-          <p className="font-medium text-white">No skills added yet</p>
+          <p className="font-medium text-black">No skills added yet</p>
         </div>
       ) : (
         <div className="space-y-6">
           {Object.entries(grouped).map(([category, items]) => (
             <div key={category} className="card-dark">
-              <h3 className="text-sm font-bold text-[#B3B3B3] uppercase tracking-wider mb-3">{category}</h3>
+              <h3 className="text-sm font-bold text-black/55 uppercase tracking-wider mb-3">{category}</h3>
               <div className="space-y-2">
                 {items.map(s => (
                   <div key={s.id} className="flex items-center gap-3">
-                    <span className="text-sm text-white w-28 flex-shrink-0">{s.name}</span>
+                    <span className="text-sm text-black w-28 flex-shrink-0">{s.name}</span>
                     {/* Level bar */}
                     <div className="flex-1 flex gap-1">
                       {[1,2,3,4,5].map(i => (
                         <div key={i} className="flex-1 h-1.5 rounded-full transition-all"
-                          style={{ background: i <= (s.level ?? 0) ? '#1DB954' : '#2a2a2a' }} />
+                          style={{ background: i <= (s.level ?? 0) ? '#7c3aed' : '#dbdbdb' }} />
                       ))}
                     </div>
-                    <span className="text-xs text-[#B3B3B3] w-20 text-right">{LEVEL_LABELS[s.level ?? 0]}</span>
+                    <span className="text-xs text-black/55 w-20 text-right">{LEVEL_LABELS[s.level ?? 0]}</span>
                     <div className="flex gap-1 flex-shrink-0">
-                      <button onClick={() => openEdit(s)} className="text-xs text-[#B3B3B3] hover:text-white px-2 py-1 rounded border border-[#2a2a2a] hover:border-[#444] transition-all">Edit</button>
+                      <button onClick={() => openEdit(s)} className="text-xs text-black/60 hover:text-black px-2 py-1 rounded border border-black/15 hover:border-black/35 transition-all">Edit</button>
                       <button onClick={() => handleDelete(s.id)} className="text-xs text-red-400 px-2 py-1 rounded border border-red-500/20 hover:border-red-500/40 transition-all">✕</button>
                     </div>
                   </div>
