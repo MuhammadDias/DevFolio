@@ -1,6 +1,6 @@
 'use client'
 // app/auth/login/page.tsx
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
@@ -44,7 +44,7 @@ function EyeOffIcon({ className }: { className?: string }) {
   )
 }
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const params = useSearchParams()
   const redirectTo = params.get('redirectTo') ?? '/dashboard'
@@ -174,5 +174,17 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#dedede]">
+        <div className="text-violet-700 animate-pulse font-black text-2xl">devfolio</div>
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   )
 }
