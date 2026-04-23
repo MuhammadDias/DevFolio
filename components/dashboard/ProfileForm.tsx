@@ -54,7 +54,7 @@ export default function ProfileForm({ profile }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-medium text-black/60 mb-1.5">Full Name</label>
           <input name="full_name" value={form.full_name} onChange={handleChange}
@@ -74,7 +74,7 @@ export default function ProfileForm({ profile }: Props) {
           placeholder="A short bio about yourself…" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-medium text-black/60 mb-1.5">Contact Email</label>
           <input name="contact_email" value={form.contact_email} onChange={handleChange}
@@ -93,7 +93,7 @@ export default function ProfileForm({ profile }: Props) {
           className="input-dark" placeholder="City, Province, Country" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-xs font-medium text-black/60 mb-1.5">Map Latitude</label>
           <input name="map_lat" value={form.map_lat} onChange={handleChange}
@@ -109,7 +109,7 @@ export default function ProfileForm({ profile }: Props) {
         Tip: ambil koordinat dari Google Maps (klik lokasi, lalu copy nilai latitude/longitude).
       </p>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { name: 'website',  label: 'Website',  placeholder: 'https://yoursite.com' },
           { name: 'github',   label: 'GitHub',   placeholder: 'github.com/username' },

@@ -31,7 +31,7 @@ export default function DashboardSidebar({ username, fullName, avatarUrl }: Prop
 
   return (
     <aside
-      className="w-56 flex-shrink-0 bg-[#f6f6f6] flex flex-col h-full border-r border-black/10"
+      className="w-full flex flex-col h-full bg-[#f6f6f6] border-r border-black/10"
     >
       {/* Logo */}
       <div className="p-5 pb-4">

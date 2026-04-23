@@ -1,7 +1,7 @@
-// app/dashboard/layout.tsx
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import DashboardSidebar from '@/components/dashboard/Sidebar'
+import DashboardShell from '@/components/dashboard/DashboardShell'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -16,15 +16,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
     .single()
 
   return (
-    <div className="flex h-screen bg-[#dedede] overflow-hidden">
-      <DashboardSidebar
-        username={profile?.username ?? ''}
-        fullName={profile?.full_name ?? ''}
-        avatarUrl={profile?.avatar_url ?? null}
-      />
-      <main className="flex-1 overflow-y-auto">
-        {children}
-      </main>
-    </div>
+    <DashboardShell
+      sidebar={
+        <DashboardSidebar
+          username={profile?.username ?? ''}
+          fullName={profile?.full_name ?? ''}
+          avatarUrl={profile?.avatar_url ?? null}
+        />
+      }
+    >
+      {children}
+    </DashboardShell>
   )
 }
