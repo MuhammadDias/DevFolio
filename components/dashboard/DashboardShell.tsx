@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Menu, X, ChevronLeft } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { GridPattern } from '@/components/ui/grid-pattern'
+import { cn } from '@/lib/utils'
 
 interface Props {
   sidebar: React.ReactNode
@@ -27,6 +29,21 @@ export default function DashboardShell({ sidebar, children }: Props) {
 
   return (
     <div className="flex h-screen bg-[#dedede] overflow-hidden relative">
+      <GridPattern
+        width={40}
+        height={40}
+        x={-1}
+        y={-1}
+        strokeDasharray={"4 2"}
+        squares={[
+          [2, 2], [5, 4], [8, 2], [12, 6], [15, 3], [18, 5], [22, 2]
+        ]}
+        className={cn(
+          "[mask-image:radial-gradient(1500px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+          "fill-black/15 stroke-black/15"
+        )}
+      />
       {/* Mobile Backdrop */}
       {isOpen && (
         <div 

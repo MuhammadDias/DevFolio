@@ -2,6 +2,10 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { HeroScrollDemo } from '@/components/demo/container-scroll-animation-demo'
+import { GridPattern } from '@/components/ui/grid-pattern'
+import { cn } from '@/lib/utils'
+import { TestimonialsVariant } from '@/components/demo/animated-cards-stack-demo'
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -9,15 +13,21 @@ export default async function HomePage() {
   if (user) redirect('/dashboard')
 
   return (
-    <div className="min-h-screen bg-[#fcfcfd] overflow-x-hidden relative">
-      <div className="pointer-events-none fixed inset-0 bg-gradient-to-br from-violet-100/35 via-transparent to-fuchsia-100/20" />
-      <div
-        className="pointer-events-none fixed inset-0 opacity-50"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, rgba(0,0,0,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.045) 1px, transparent 1px)',
-          backgroundSize: '54px 54px',
-        }}
+    <div className="min-h-screen bg-[#fcfcfd] overflow-x-clip relative">
+      <GridPattern
+        width={40}
+        height={40}
+        x={-1}
+        y={-1}
+        strokeDasharray={"4 2"}
+        squares={[
+          [4, 4], [8, 2], [15, 6], [22, 3], [30, 8], [35, 4]
+        ]}
+        className={cn(
+          "[mask-image:radial-gradient(1800px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12 fixed z-0",
+          "fill-violet-900/[0.08] stroke-violet-900/[0.08]"
+        )}
       />
 
       <main className="relative z-10 mx-auto max-w-[1400px] px-4 py-8 sm:px-6 md:px-10 md:py-12">
@@ -84,6 +94,10 @@ export default async function HomePage() {
               <span className="inline-flex items-center gap-2"><CheckIcon className="h-4 w-4 text-violet-700" /> Free starter plan</span>
             </div>
           </div>
+        </section>
+
+        <section className="-mt-20 mb-20 relative z-20">
+          <HeroScrollDemo />
         </section>
 
         {/* Why portfolio section */}
@@ -185,18 +199,18 @@ export default async function HomePage() {
           </div>
           <div className="flex flex-wrap justify-center gap-8">
             {[
-              { name: "Next.js 15", desc: "React framework", color: "white" },
-              { name: "Supabase", desc: "Postgres + Auth", color: "#3ECF8E" },
-              { name: "Tailwind CSS", desc: "Utility-first CSS", color: "#38BDF8" },
-              { name: "TypeScript", desc: "Type safety", color: "#3178C6" },
-              { name: "Vercel", desc: "Global edge network", color: "white" }
+              { name: "Next.js", desc: "React framework", icon: NextJsIcon },
+              { name: "Supabase", desc: "Postgres + Auth", icon: SupabaseIcon },
+              { name: "Tailwind CSS", desc: "Utility-first CSS", icon: TailwindIcon },
+              { name: "TypeScript", desc: "Type safety", icon: TypeScriptIcon },
+              { name: "Vercel", desc: "Global edge network", icon: VercelIcon }
             ].map((tech) => (
-              <div key={tech.name} className="text-center group">
-                <div className="w-16 h-16 mx-auto rounded-2xl bg-white border border-black/10 flex items-center justify-center text-2xl font-bold mb-2 group-hover:scale-110 transition">
-                  {tech.name[0]}
+              <div key={tech.name} className="text-center group flex flex-col items-center w-32">
+                <div className="w-16 h-16 rounded-2xl bg-white border border-black/10 flex items-center justify-center text-2xl font-bold mb-4 shadow-sm group-hover:shadow-[0_15px_35px_-10px_rgba(124,58,237,0.35)] group-hover:scale-110 group-hover:-translate-y-2 group-hover:border-violet-300 group-hover:bg-violet-50 transition-all duration-300 ease-out">
+                  <tech.icon className="w-8 h-8 group-hover:text-violet-700 transition-colors" />
                 </div>
-                <div className="font-semibold text-sm">{tech.name}</div>
-                <div className="text-black/55 text-xs">{tech.desc}</div>
+                <div className="font-semibold text-sm text-black/80 group-hover:text-violet-700 transition-colors">{tech.name}</div>
+                <div className="text-black/50 text-xs mt-1">{tech.desc}</div>
               </div>
             ))}
           </div>
@@ -206,26 +220,9 @@ export default async function HomePage() {
         </section>
 
         {/* Testimonial / Social proof */}
-        <section className="mb-28">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-2">Trusted by developers</h2>
-            <p className="text-black/60">Join hundreds who already launched their portfolio</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { quote: "I got my first freelance client within a week of sharing my DevFolio link. It looks professional and saved me hours of coding.", name: "Alex M.", role: "Frontend Developer" },
-              { quote: "The dashboard is so intuitive. I could update my projects without touching code. And the Spotify theme is chef's kiss.", name: "Sarah K.", role: "Full Stack Dev" },
-              { quote: "Best decision to move away from static site generators. DevFolio handles everything — auth, database, hosting.", name: "Jason L.", role: "CS Student" }
-            ].map((t, i) => (
-              <div key={i} className="rounded-2xl border border-black/10 bg-[#f6f6f6] p-6 hover:border-violet-300 transition">
-                <QuoteIcon className="w-8 h-8 text-violet-400 mb-3" />
-                <p className="text-sm leading-relaxed mb-4">"{t.quote}"</p>
-                <div className="font-bold text-sm">{t.name}</div>
-                <div className="text-black/55 text-xs">{t.role}</div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <div className="mb-28 -mx-4 sm:-mx-6 md:-mx-10 rounded-[2rem] border border-black/5 shadow-sm">
+          <TestimonialsVariant />
+        </div>
 
         {/* Final CTA */}
         <section className="text-center bg-gradient-to-r from-violet-100 to-fuchsia-100 rounded-3xl p-12 border border-violet-200">
@@ -294,4 +291,19 @@ function SettingsIcon({ className }: { className?: string }) {
 }
 function QuoteIcon({ className }: { className?: string }) {
   return <svg className={className} fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" /></svg>
+}
+function NextJsIcon({ className }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 180 180" fill="currentColor"><path d="M90 0C40.294 0 0 40.294 0 90s40.294 90 90 90 90-40.294 90-90S139.706 0 90 0zm0 162c-39.764 0-72-32.236-72-72s32.236-72 72-72 72 32.236 72 72-32.236 72-72 72z"/><path d="M129.544 142.11L67.65 60.101V114.5h14.545V81.332l53.111 70.364c-12.75 9.176-28.536 14.61-45.306 14.61-42.348 0-76.814-34.466-76.814-76.814s34.466-76.814 76.814-76.814 76.814 34.466 76.814 76.814c0 13.51-3.483 26.208-9.56 37.072l2.29 3.04z"/></svg>
+}
+function SupabaseIcon({ className }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 24 24" fill="#3ECF8E"><path d="M11.996.002c-.365 0-.712.164-.945.446L.515 13.064c-.397.48-.053 1.205.57 1.205h8.91v9.283c0 .546.666.813 1.047.417L23.49 10.94c.4-.419.1-.115-.55-1.115H14.04V.446c0-.246-.2-.444-.445-.444h-1.599z"/></svg>
+}
+function TailwindIcon({ className }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 24 24" fill="#06B6D4"><path d="M12 5.5c-2.667 0-4.333 1.333-5 4 1-1.333 2.167-1.833 3.5-1.5.76.19 1.305.738 1.906 1.345C13.387 10.334 14.536 11.5 17 11.5c2.667 0 4.333-1.333 5-4-1 1.333-2.167 1.833-3.5 1.5-.76-.19-1.305-.738-1.906-1.345C15.613 6.666 14.464 5.5 12 5.5zM7 12.5c-2.667 0-4.333 1.333-5 4 1-1.333 2.167-1.833 3.5-1.5.76.19 1.305.738 1.906 1.345C8.387 17.334 9.536 18.5 12 18.5c2.667 0 4.333-1.333 5-4-1 1.333-2.167 1.833-3.5 1.5-.76-.19-1.305-.738-1.906-1.345C10.613 13.666 9.464 12.5 7 12.5z"/></svg>
+}
+function TypeScriptIcon({ className }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 24 24" fill="#3178C6"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0H1.125zm16.593 20.354c-1.35 0-2.502-.279-3.456-.837-.954-.558-1.638-1.305-2.052-2.241l2.574-1.512c.324.594.756 1.053 1.296 1.377.54.324 1.152.486 1.836.486 1.278 0 1.917-.414 1.917-1.242 0-.306-.099-.576-.297-.81-.198-.234-.522-.441-.972-.621-.45-.18-1.026-.378-1.728-.594-1.296-.414-2.232-1.017-2.808-1.809-.576-.792-.864-1.764-.864-2.916 0-1.26.432-2.313 1.296-3.159.864-.846 2.052-1.269 3.564-1.269 1.152 0 2.16.234 3.024.702.864.468 1.512 1.116 1.944 1.944l-2.484 1.512c-.27-.45-.63-.81-1.08-1.08-.45-.27-.99-.405-1.62-.405-.954 0-1.584.288-1.584.864 0 .306.108.576.324.81.216.234.558.45 1.026.648.468.198 1.08.414 1.836.648 1.296.432 2.25 1.053 2.862 1.863.612.81.918 1.827.918 3.051 0 1.296-.45 2.376-1.35 3.24-.9 1.278-2.142 1.341-3.699 1.341zm-13.734-11.43v11.16H.504V8.924h10.26v3.258H6.552v7.902h3.42V8.924h-5.988z"/></svg>
+}
+function VercelIcon({ className }: { className?: string }) {
+  return <svg className={className} viewBox="0 0 24 24" fill="currentColor"><path d="M24 22.525H0l12-21.05 12 21.05z"/></svg>
 }
